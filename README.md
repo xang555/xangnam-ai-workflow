@@ -1,3 +1,5 @@
+[English](README.md) | [ພາສາລາວ](README.la.md)
+
 # AI Agent Development Workflow — Internal Process Document
 
 **Status:** Updated
@@ -680,15 +682,6 @@ A quick-reference for every AI tool in the stack. Not a tutorial — just what i
 | **Key skills** | `/brainstorming` → `/writing-plans` → TDD implementation → `/code-review` → `/verification-before-completion` |
 | **Key concept** | Skills are not optional. If a skill applies to your task, you use it. The skill system prevents skipping phases. |
 
-### CodeGraph MCP
-
-| Attribute | Detail |
-| --- | --- |
-| **What** | A tree-sitter-parsed knowledge graph of every symbol, edge, and file in the workspace. Sub-millisecond reads. |
-| **When to use** | Before editing code. Understanding structure. Tracing call paths. Assessing impact of changes. |
-| **When NOT to use** | Searching for literal strings (use grep). Reading files you already have open (use Read). |
-| **Key tools** | `codegraph_context` (primary — one call gives focused context), `codegraph_search` (find symbols), `codegraph_trace` (call paths), `codegraph_impact` (what breaks if I change this) |
-
 ### Figma MCP
 
 | Attribute | Detail |
@@ -697,24 +690,6 @@ A quick-reference for every AI tool in the stack. Not a tutorial — just what i
 | **When to use** | Pre-implementation (read design specs), post-implementation (verify against design), code-to-design sync. |
 | **When NOT to use** | Writing business logic. Generating SQL. Anything that isn't visual design. |
 | **Key tools** | `get_design_context` (primary — returns code + metadata + screenshot), `get_screenshot` (visual comparison), `use_figma` (programmatic design creation/editing) |
-
-### Supabase Plugin
-
-| Attribute | Detail |
-| --- | --- |
-| **What** | Expert guidance for all Supabase products — Database, Auth, Edge Functions, Realtime, Storage, Vectors, RLS. |
-| **When to use** | Schema design, migrations, auth flows, RLS policies, type generation, any Supabase SDK usage. |
-| **When NOT to use** | General PostgreSQL questions not specific to Supabase. Frontend UI work. |
-| **Key concept** | Always fetch current Supabase docs via Context7 before writing migration or auth code. Don't rely on training data alone. |
-
-### Context7 MCP
-
-| Attribute | Detail |
-| --- | --- |
-| **What** | Fetches current, version-specific documentation for any library, framework, SDK, or tool. |
-| **When to use** | Before writing code that uses any library. Before designing APIs that depend on framework behavior. When unsure about a library's current API. |
-| **When NOT to use** | For general knowledge questions. For things covered by CodeGraph (use CodeGraph instead). |
-| **Key concept** | Training data becomes stale. Context7 gives you the docs as they exist today. Use it before assuming you know the API. |
 
 ### Claude Code Memory System
 
@@ -743,14 +718,14 @@ A quick-reference for every AI tool in the stack. Not a tutorial — just what i
 | **When NOT to use** | Manual code review (use `/code-review` instead). Design or planning phases. |
 | **Key concept** | Each skill costs ~30 tokens to scan (frontmatter) and 500–2,000 tokens to fully load. Agents can search all 754 skills in a single pass. Install via `npx skills add mukul975/Anthropic-Cybersecurity-Skills`. Available at [GitHub](https://github.com/mukul975/Anthropic-Cybersecurity-Skills). |
 
-### Hermes
+### Hermes / Multica with Autopilot
 
 | Attribute | Detail |
 | --- | --- |
-| **What** | CI/CD integration agent that connects git repositories (GitHub, GitLab) to automated security scanning pipelines. Triggers on push events and pull requests. |
-| **When to use** | Phase 6 — connects the git repo to the security scan pipeline. Handles webhook integration, event detection, and pipeline orchestration. |
+| **What** | CI/CD integration layer that connects git repositories (GitHub, GitLab) to automated security scanning pipelines. **Hermes** handles webhook integration and pipeline orchestration. **Multica with Autopilot** is an alternative: a multi-agent Claude Code setup that runs the security scan autonomously on each push via scheduled Autopilot agents. |
+| **When to use** | Phase 6 — connects the git repo to the security scan pipeline. Use Hermes for traditional webhook-driven CI/CD. Use Multica with Autopilot when you want Claude Code agents to orchestrate the scan directly without a separate CI/CD server. |
 | **When NOT to use** | Manual security review. Local development scanning. |
-| **Key concept** | Hermes is the bridge between "code was pushed" and "security scan runs." It detects push events, passes the diff to the scanning agent, and manages the pipeline flow. |
+| **Key concept** | Both options bridge "code was pushed" → "security scan runs." Hermes is the conventional pipeline approach; Multica with Autopilot leverages Claude Code's multi-agent scheduling to run the same Anthropic Cybersecurity Skills scan without external CI/CD infrastructure. |
 
 ---
 
@@ -956,7 +931,6 @@ flowchart TD
 Before starting any implementation task:
 
 1. **Invoke `find-skills`** — use the `Skill` tool with `find-skills` to discover the most relevant superpowers skill before doing any work.
-2. **Use Context7 for library docs** — whenever the task involves any library, framework, SDK, API, or CLI tool (Next.js, Supabase, Tailwind, Prisma, etc.), fetch current docs via Context7 MCP before writing code. Do not rely on training-data knowledge alone.
 
 ### Spec Requirements for Web and Mobile (MANDATORY)
 
@@ -992,11 +966,9 @@ Every spec and implementation plan for any page or UI component **must** include
 
 ## Tools
 
-- **Code intelligence:** CodeGraph MCP (query before editing)
 - **Design creation:** Figma MCP (separate session for creating UX/UI designs)
 - **Design verification:** Figma MCP (pre and post implementation)
 - **Design system creation:** https://getdesign.md/ (when no design system exists)
-- **Library docs:** Context7 MCP (fetch before using any library)
 
 ## File Structure
 
