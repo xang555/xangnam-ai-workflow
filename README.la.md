@@ -160,7 +160,7 @@ flowchart TD
 
 ### ພາບລວມໂດຍຫຍໍ້ (At a Glance)
 
-| ໄລຍະ (Phase) | ໂມເດວ (Model) | ព័ត៌មានນຳເຂົ້າ (Input) | ຜົນໄດ້ຮັບ (Output) | ດ່ານກວດສອບ (Gate) |
+| ໄລຍະ (Phase) | ໂມເດວ (Model) | ສີ່ງທີ່ນຳເຂົ້າ (Input) | ຜົນໄດ້ຮັບ (Output) | ດ່ານກວດສອບ (Gate) |
 | --- | --- | --- | --- | --- |
 | 1 — ການກຳນົດແນວຄິດ | Opus / Sonnet | ຄຳຮ້ອງຂໍຟີເຈີ | ເອກະສານ Spec | ມະນຸດອະນຸມັດ Spec |
 | 2 — ການອອກແບບ | Opus / Sonnet | Spec ທີ່ໄດ້ຮັບການອະນຸມັດ | `DESIGN.md` + ເຟຣມ Figma | ມະນຸດອະນຸມັດ Spec + Figma |
